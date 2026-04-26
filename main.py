@@ -141,8 +141,9 @@ df_under_20 = pd.read_sql("""
         GROUP BY orderdetails.productCode
         HAVING COUNT(DISTINCT orders.customerNumber) < 20
     )
-        GROUP BY e.employeeNumber, e.firstName, e.lastName, o.city, o.officeCode
-    ORDER BY e.lastName
+        GROUP BY employees.employeeNumber, employees.firstName, employees.lastName,
+           offices.city, offices.officeCode
+    ORDER BY employees.lastName
 """, conn)
 
 
