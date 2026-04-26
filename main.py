@@ -73,14 +73,15 @@ ORDER BY CAST (payments.amount AS REAL) DESC
 # CodeGrade step6
 # Replace None with your code
 df_credit = pd.read_sql(""" 
-
-SELECT employees.employeeNumber, employees.firstName, employees.lastName, COUNT(customers.customerNumber) 
-            AS 'customerCount'
-FROM employees
-JOIN customers ON employees.employeeNumber = customers.salesRepEmployeeNumber
-HAVING AVG (customers.creditLimit) > 90000
-ORDER BY customerCount DESC
-""", conn)
+       SELECT e.firstName,e.lastName,e.employeeNumber,COUNT(c.salesRepEmployeeNumber) AS number_of_employees
+       FROM employees e
+       JOIN customers c
+            ON e.employeeNumber=c.salesRepEmployeeNumber
+      GROUP BY e.firstName,e.lastName,e.employeeNumber
+      HAVING AVG(c.creditLimit)>90000
+      ORDER BY 
+            number_of_employees DESC;
+             """,conn)
 
 
 # CodeGrade step7
