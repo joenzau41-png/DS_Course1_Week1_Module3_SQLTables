@@ -14,7 +14,7 @@ pd.read_sql("""SELECT * FROM sqlite_master""", conn)
 # Replace None with your code
 df_boston = pd.read_sql(""" 
 
-    SELECT employees.firstName,employees.lastName,employees.jobTitle
+    SELECT employees.firstName,employees.lastName
     FROM employees
     JOIN offices ON employees.officeCode = offices.officeCode
     WHERE offices.city = 'Boston'
@@ -26,11 +26,12 @@ df_boston = pd.read_sql("""
 # Replace None with your code
 df_zero_emp = pd.read_sql(""" 
 
-SELECT offices.officeCode, offices.city
-FROM offices
-LEFT JOIN employees ON offices.officeCode = employees.officeCode
-WHERE employees.employeeNumber is NULL
-
+SELECT offices.city, COUNT(employees.employeeNumber) AS number_of_employees       
+FROM employees 
+           JOIN  offices 
+                ON employees.officeCode=offices.officeCode
+            GROUP BY offices.city,offices.officeCode
+            HAVING number_of_employees = 0
 """, conn)
 
 
